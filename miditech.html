@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Miditech - Hub de formation Codex</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fbfdff;
+        --bg-strong: #f3f7ff;
+        --ink: #0a1222;
+        --muted: #52627a;
+        --accent: #1f7bff;
+        --accent-2: #00c2ff;
+        --accent-3: #0b2d6b;
+        --card: rgba(255, 255, 255, 0.78);
+        --border: rgba(10, 18, 34, 0.14);
+        --shadow: 0 30px 80px rgba(10, 18, 34, 0.18);
+        --glow: 0 0 80px rgba(31, 123, 255, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: "Sora", sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        overflow: hidden;
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        inset: -20%;
+        z-index: -2;
+        background: radial-gradient(circle at 20% 20%, rgba(31, 123, 255, 0.12), transparent 45%),
+          radial-gradient(circle at 80% 10%, rgba(0, 194, 255, 0.12), transparent 40%),
+          radial-gradient(circle at 70% 80%, rgba(11, 45, 107, 0.08), transparent 45%);
+        filter: blur(0px);
+      }
+
+      body::after {
+        background-image: linear-gradient(120deg, rgba(255, 255, 255, 0.92) 0%, rgba(245, 250, 255, 0.98) 45%, rgba(248, 252, 255, 0.96) 100%);
+        opacity: 1;
+        z-index: -3;
+      }
+
+      #nodes {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.65;
+      }
+
+      #topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        padding: 1.2rem 3rem 0.8rem;
+        z-index: 10;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+      }
+
+      .brand {
+        font-family: "Syne", sans-serif;
+        font-size: 1.4rem;
+        letter-spacing: 0.02em;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .brand .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: linear-gradient(120deg, var(--accent), var(--accent-2));
+        box-shadow: 0 0 12px rgba(31, 123, 255, 0.35);
+      }
+
+      #progress-wrap {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      #progress {
+        width: 160px;
+        height: 6px;
+        background: rgba(10, 18, 34, 0.12);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      #progress span {
+        display: block;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      }
+
+      #status {
+        font-size: 0.85rem;
+      }
+
+      #deck {
+        height: 100vh;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+        position: relative;
+        z-index: 1;
+      }
+
+      .slide {
+        min-height: 100vh;
+        scroll-snap-align: start;
+        display: flex;
+        align-items: center;
+        padding: 6rem clamp(2rem, 4vw, 5rem) 4rem;
+        position: relative;
+      }
+
+
+      .slide-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        gap: 3rem;
+        width: 100%;
+        align-items: center;
+      }
+
+      .slide.compact .slide-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin: 0 0 0.6rem;
+      }
+
+      h1,
+      h2 {
+        font-family: "Syne", sans-serif;
+        margin: 0 0 1rem;
+      }
+
+      h1 {
+        font-size: clamp(2.6rem, 4vw, 4.2rem);
+      }
+
+      h2 {
+        font-size: clamp(2rem, 3vw, 3rem);
+      }
+
+      p {
+        line-height: 1.6;
+        color: var(--muted);
+        margin: 0 0 1.2rem;
+      }
+
+      a {
+        color: var(--accent-3);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(31, 123, 255, 0.35);
+      }
+
+      a:hover {
+        color: var(--accent);
+        border-bottom-color: rgba(31, 123, 255, 0.5);
+      }
+
+      .lead {
+        font-size: 1.15rem;
+        color: var(--ink);
+      }
+
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin: 1rem 0 1.6rem;
+      }
+
+      .badge {
+        padding: 0.35rem 0.8rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      .badge.accent {
+        background: rgba(31, 123, 255, 0.14);
+        color: #0a2b66;
+      }
+
+      .badge.teal {
+        background: rgba(0, 194, 255, 0.12);
+        color: #00506a;
+      }
+
+      .steps {
+        margin: 0;
+        padding-left: 1.2rem;
+        color: var(--ink);
+      }
+
+      .steps li {
+        margin-bottom: 0.6rem;
+      }
+
+      .steps ul {
+        margin-top: 0.4rem;
+      }
+
+      .steps ol {
+        margin-top: 0.4rem;
+      }
+
+      .steps li pre {
+        margin: 0.6rem 0 0.8rem;
+      }
+
+      code {
+        font-family: "Sora", sans-serif;
+        font-size: 0.95em;
+        background: rgba(10, 18, 34, 0.08);
+        padding: 0.1rem 0.3rem;
+        border-radius: 6px;
+      }
+
+      pre {
+        background: #0b1630;
+        color: #f5f0e8;
+        padding: 1rem;
+        border-radius: 12px;
+        overflow-x: auto;
+        font-size: 0.9rem;
+      }
+
+      .media-card {
+        background: var(--card);
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        max-height: 80vh;
+        overflow: hidden;
+      }
+
+      .media-stack {
+        max-height: 100%;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        padding-right: 0.4rem;
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .media-image {
+        width: 100%;
+        height: auto;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        display: block;
+        object-fit: contain;
+        background: #fff;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1.8rem;
+      }
+
+      .btn {
+        border: none;
+        padding: 0.8rem 1.6rem;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        background: var(--ink);
+        color: #f7f2ea;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        pointer-events: auto;
+      }
+
+      .btn.secondary {
+        background: transparent;
+        border: 1px solid var(--ink);
+        color: var(--ink);
+      }
+
+      .btn.ghost {
+        background: rgba(255, 255, 255, 0.6);
+        color: var(--ink);
+        border: 1px solid var(--border);
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(30, 26, 22, 0.2);
+      }
+
+      .task-grid {
+        display: grid;
+        gap: 1.2rem;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+
+      .task-card {
+        padding: 1rem 1.2rem;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid var(--border);
+        text-decoration: none;
+        border-bottom: none;
+        color: var(--ink);
+        display: grid;
+        gap: 0.4rem;
+      }
+
+      .task-card span {
+        font-size: 0.75rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+      }
+
+      .task-card strong {
+        font-size: 1rem;
+      }
+
+      #rail {
+        position: fixed;
+        top: 50%;
+        right: 1.5rem;
+        transform: translateY(-50%);
+        z-index: 9;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      #rail button {
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        border: none;
+        background: rgba(10, 18, 34, 0.25);
+        cursor: pointer;
+        position: relative;
+      }
+
+      #rail button.active {
+        background: var(--accent);
+        transform: scale(1.2);
+      }
+
+      #rail button::after {
+        content: attr(data-title);
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(10, 18, 34, 0.85);
+        color: #f7f2ea;
+        padding: 0.3rem 0.6rem;
+        border-radius: 8px;
+        font-size: 0.7rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+
+      #rail button:hover::after {
+        opacity: 1;
+      }
+
+
+      .kicker {
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-title {
+        font-size: clamp(3rem, 7vw, 6rem);
+        line-height: 0.92;
+        letter-spacing: -0.02em;
+        text-transform: none;
+        text-align: center;
+        margin-top: 1.2rem;
+      }
+
+      .hero-title span {
+        display: block;
+      }
+
+      .hero-title .word-accent {
+        background: linear-gradient(120deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero-logo-wrap {
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
+      .hero-stack {
+        width: min(720px, 100%);
+        margin: 0 auto;
+        display: grid;
+        gap: 0.8rem;
+        justify-items: center;
+      }
+
+      .hero-logo {
+        width: clamp(220px, 34vw, 520px);
+        height: auto;
+        filter: drop-shadow(0 18px 40px rgba(11, 45, 107, 0.35));
+      }
+
+
+      body.on-cover #topbar,
+      body.on-cover #rail {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      @media (max-width: 960px) {
+        #topbar {
+          padding: 1rem 1.5rem 0.6rem;
+        }
+
+        .slide-inner {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        #rail {
+          display: none;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .slide {
+          padding: 6rem 1.5rem 3rem;
+        }
+
+        .cta-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        #progress-wrap {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="nodes" aria-hidden="true"></canvas>
+    <header id="topbar">
+      <div class="brand"><span class="dot"></span> Miditech Codex</div>
+      <div id="progress-wrap">
+        <div id="progress"><span></span></div>
+        <div id="status">0/13</div>
+      </div>
+      <div aria-hidden="true"></div>
+    </header>
+
+    <nav id="rail" aria-label="Navigation des slides"></nav>
+
+    <main id="deck">
+      <section id="cover" class="slide compact hero" data-title="Accueil" data-type="intro">
+        <div class="slide-inner">
+          <div class="hero-stack">
+            <div class="hero-logo-wrap">
+              <img class="hero-logo" src="assets/miditech.png" alt="Logo Miditech" />
+            </div>
+            <h1 class="hero-title">
+              <span>Codex</span>
+            </h1>
+          </div>
+        </div>
+      </section>
+
+      <section id="agenda" class="slide compact" data-title="Sommaire" data-type="agenda">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Sommaire</p>
+            <h2>Sommaire</h2>
+            <div class="task-grid" id="task-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-01" class="slide" data-title="Récupérer le dépôt de référence" data-type="task" data-task="01">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 01</p>
+            <h2>Récupérer le dépôt de référence</h2>
+            <p class="lead">Récupérez le dépôt exemple que vous utiliserez pendant les exercices.</p>
+            <ol class="steps">
+              <li>
+                Clonez avec <code>git clone https://github.com/openai/agents.md.git agents-md-repository</code>
+                (ou téléchargez le ZIP et renommez le dossier en <code>agents-md-repository</code>).
+              </li>
+              <li>
+                Ouvrez un terminal séparé pour le serveur de dev et lancez :
+                <ul>
+                  <li><code>cd agents-md-repository</code></li>
+                  <li><code>npm install</code></li>
+                  <li><code>npm run dev</code></li>
+                </ul>
+              </li>
+            </ol>
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <img class="media-image" src="https://codex-102.vercel.app/clone-local-repo-extension.png" alt="Capture : clonage et ouverture dans l'IDE" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-02" class="slide" data-title="Modifier l'effort de raisonnement du modèle" data-type="task" data-task="02">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 02</p>
+            <h2>Modifier l'effort de raisonnement du modèle</h2>
+            <p class="lead">Réglez Codex sur un raisonnement Low avant de lancer les prompts. Quand vous avez fini, repassez en Medium.</p>
+            Lancez <code>codex</code>, tapez <code>/model</code>, surlignez <code>gpt-5.2-codex</code>, appuyez sur Entrée, puis choisissez le raisonnement Low.</li>
+
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <img class="media-image" src="https://codex-102.vercel.app/select-model-and-reasoning-extension.png" alt="Capture : sélection du raisonnement Low dans l'IDE" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-03" class="slide" data-title="Envoyer un prompt en lecture seule" data-type="task" data-task="03">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 03</p>
+            <h2>Envoyer un prompt en lecture seule</h2>
+            <p class="lead">Entraînez-vous à demander une analyse sans modifier de fichiers.</p>
+              Avec le raisonnement Low actif, demandez : <code>Explique en bref ce que fait ce dépôt</code>
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <img class="media-image" src="https://codex-102.vercel.app/explain-what-this-repository-is-doing-extension.png" alt="Capture : prompt en lecture seule dans l'IDE" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-04" class="slide" data-title="Revenir à GPT-5.2-Codex (Medium)" data-type="task" data-task="04">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 04</p>
+            <h2>Revenir à GPT-5.2-Codex (Medium)</h2>
+            <p class="lead">Revenez au modèle par défaut recommandé avant de continuer.</p>
+            <ol class="steps">
+              <li>Dans l'IDE, ouvrez le sélecteur de modèle sous la zone de chat, choisissez <code>gpt-5.2-codex</code>, puis réglez l'effort de raisonnement sur <code>Medium</code>.</li>
+              <li>Gardez ce choix par défaut pour la suite afin que les tâches suivantes utilisent le meilleur modèle.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-05" class="slide" data-title="Créer de nouveaux fichiers (ex : documentation) sans forcément modifier l'app" data-type="task" data-task="05">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 05</p>
+            <h2>Créer de nouveaux fichiers (ex : documentation) sans forcément modifier l'app</h2>
+            <p class="lead">Lancez le prompt suivant pour générer un asset de visualisation du dépôt.</p>
+            <ol class="steps">
+              <li>Démarrez une nouvelle conversation.</li>
+              <li>Envoyez :</li>
+            </ol>
+            <pre>Crée une petite page HTML dans assets.html qui montre comment les fichiers sont reliés entre eux. Je veux un assets.html joli qui explique ces concepts.</pre>
+            Relisez l'asset proposé pour vérifier que les relations sont correctes avant d'appliquer le patch.
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <img class="media-image" src="https://codex-102.vercel.app/assets-html-generation.png" alt="Capture : génération de assets HTML" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-06" class="slide" data-title="Modifier du code via un prompt" data-type="task" data-task="06">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 06</p>
+            <h2>Modifier du code via un prompt</h2>
+            <p class="lead">Demandez à Codex de modifier le projet en appliquant un patch.</p>
+            Démarrez une nouvelle tâche et envoyez :
+            <pre>Peux-tu implémenter, à côté des boutons "Explore Examples" et "View on Github", un bouton pour télécharger et un autre pour copier la page en markdown ?</pre>
+            Relisez le diff proposé par Codex avant d'appliquer.
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <img class="media-image" src="https://codex-102.vercel.app/advanced-prompt.png" alt="Capture : édition avancée via prompt" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-07" class="slide" data-title="Créer une branche à votre nom et committer" data-type="task" data-task="07">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 07</p>
+            <h2>Créer une branche à votre nom et committer</h2>
+            <p class="lead">Demandez à Codex de créer une branche Git à votre nom, puis de committer votre travail dans un second temps.</p>
+            <ol class="steps">
+              <li>Envoyez :</li>
+            </ol>
+            <pre>Crée une branche Git nommée avec mon nom (en kebab-case, sans espaces) et bascule dessus.</pre>
+            <ol class="steps" start="2">
+              <li>Puis, envoyez :</li>
+            </ol>
+            <pre>Commit tous mes changements actuels avec un message clair.</pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="security" class="slide" data-title="Sécurité Codex" data-type="concept">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Après la tâche 07</p>
+            <h2>Sécurité</h2>
+            <p class="lead">Comprenez ce que Codex peut faire par défaut et quand il doit vous demander une approbation.</p>
+            <ol class="steps">
+              <li><strong>Deux couches de sécurité :</strong> le <em>sandbox</em> limite techniquement l'accès, la politique d'approbation détermine quand Codex doit demander votre feu vert.</li>
+              <li>
+                <strong>IDE uniquement :</strong> les permissions sont pilotées par le mode sélectionné :
+                <ul>
+                  <li><strong>Chat :</strong> discussion et planification sans modifications automatiques.</li>
+                  <li><strong>Agent :</strong> modifications possibles dans le workspace, avec approbations pour écrire en dehors du workspace ou accéder au réseau (sauf si <code>network_access = true</code> est activé dans la config).</li>
+                  <li><strong>Agent (full access) :</strong> désactive la sandbox et autorise les actions sensibles sans demander d'approbation (ex : accès réseau, lecture/écriture étendue).</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Web search :</strong> options possibles :
+                <ul>
+                  <li><code>"disabled"</code> pour désactiver l'outil.</li>
+                  <li><code>"cached"</code> (par défaut) pour utiliser un index mis en cache.</li>
+                  <li><code>"live"</code> pour interroger le web en direct.</li>
+                </ul>
+              </li>
+            </ol>
+            <p class="kicker">Référence : guide sécurité officiel Codex.</p>
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <pre>[sandbox_workspace_write]
+network_access = true
+
+web_search = "cached" # default
+# web_search = "live"
+# web_search = "disabled"</pre>
+              <a href="https://developers.openai.com/codex/security/" target="_blank" rel="noreferrer">Lire le guide sécurité</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-08" class="slide" data-title="Envoyer une image avec des instructions" data-type="task" data-task="08">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 08</p>
+            <h2>Envoyer une image avec des instructions</h2>
+            <p class="lead">Entraînez-vous à joindre des visuels et à demander des ajustements de style.</p>
+            <ol class="steps">
+              <li>Capturez une capture d'écran de la zone de texte Agents.md (en haut à droite de l'app).</li>
+              <li>Collez l'image directement (ctrl+v sur Mac ou ctrl+maj+v sur Windows) ou référencez <code>@agents-textarea.png</code>, puis ajoutez : <code>Rends les chips de code inline orange.</code></li>
+              <li>Vérifiez que Codex met à jour le style de l'UI à partir de la capture.</li>
+            </ol>
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <img class="media-image" src="https://codex-102.vercel.app/make-inline-background-chip-orange-extension.png" alt="Capture : mise à jour des chips dans l'IDE" />
+              <img class="media-image" src="https://codex-102.vercel.app/orange-background-chip.png" alt="Capture : chips orange" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="mcp-intro" class="slide" data-title="Comprendre MCP" data-type="concept">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Avant la tâche 09</p>
+            <h2>Qu'est-ce que le MCP ?</h2>
+            <p class="lead">
+              Le <strong>Model Context Protocol (MCP)</strong> est un standard open-source
+              qui connecte les applications d'IA à des systèmes externes (données,
+              outils et workflows).
+            </p>
+            <p>
+              Pensez au MCP comme à un <strong>port USB-C</strong> pour l'IA : un
+              connecteur standard qui permet de brancher facilement des sources
+              et des capacités.
+            </p>
+            <ol class="steps">
+              <li><strong>Ce que ça permet :</strong> accéder à vos fichiers, bases de données, outils et services.</li>
+              <li><strong>Pourquoi c'est utile :</strong> moins d'intégration sur-mesure pour les devs, plus de capacités pour les apps, meilleure expérience pour les utilisateurs.</li>
+              <li><strong>Exemples :</strong> assistants reliés à Calendar/Notion, bots d'entreprise multi-bases, génération d'apps depuis Figma.</li>
+            </ol>
+            <p class="kicker">Source : documentation "Getting Started" du MCP.</p>
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <img
+                class="media-image"
+                src="https://mintcdn.com/mcp/bEUxYpZqie0DsluH/images/mcp-simple-diagram.png?w=1100&fit=max&auto=format&n=bEUxYpZqie0DsluH&q=85&s=341b88d6308188ab06bf05748c80a494"
+                alt="Diagramme simple du Model Context Protocol"
+              />
+              <a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" rel="noreferrer">Lire l'intro MCP</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-09" class="slide" data-title="Connecter le serveur MCP des docs OpenAI" data-type="task" data-task="09">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 09</p>
+            <h2>Connecter le serveur MCP des docs OpenAI</h2>
+            <p class="lead">Ajoutez le serveur MCP de la documentation OpenAI pour que Codex récupère des détails API et SDK à jour pendant le travail.</p>
+            <ol class="steps">
+              <li>Dans l'IDE, ouvrez les réglages Codex puis la section <strong>MCP Servers</strong>.</li>
+              <li>Ajoutez un serveur nommé <code>openaiDeveloperDocs</code> avec l'URL <code>https://developers.openai.com/mcp</code>, puis sauvegardez.</li>
+              <li>Vérifiez qu'il apparaît bien dans la liste des serveurs connectés.</li>
+              <li>Dans la consigne globale Codex (fichier <code>AGENTS.md</code> utilisateur), ajoutez la directive demandant d'utiliser MCP Docs OpenAI comme source de vérité pour les questions d'API.</li>
+            </ol>
+            <pre>Quand les questions portent sur les API OpenAI, les SDK, Codex ou d'autres produits OpenAI, utilise le serveur MCP de la documentation OpenAI comme source de vérité et évite la recherche web sauf si le serveur MCP ne peut pas répondre.</pre>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="task-10" class="slide" data-title="Utiliser MCP Docs OpenAI pour l'API Voice" data-type="task" data-task="10">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 10</p>
+            <h2>Utiliser MCP Docs OpenAI pour l'API Voice</h2>
+            <p class="lead">Entraînez-vous à utiliser MCP Docs OpenAI pour répondre à une question sur l'API Voice.</p>
+            Démarrez un nouveau chat et envoyez :
+            <pre>Comment implémenter l'API Voice d'OpenAI en WebSockets ? Donne un exemple minimal et un lien vers la doc pertinente.</pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-11" class="slide" data-title="Configurer le serveur MCP GitHub" data-type="task" data-task="11">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 11</p>
+            <h2>Configurer le serveur MCP GitHub</h2>
+            <p class="lead">Ajoutez le serveur MCP GitHub (hébergé par GitHub) afin que Codex puisse interagir avec vos repos.</p>
+            <ol class="steps">
+              <li>Créez un Personal Access Token GitHub avec les scopes minimum nécessaires via <a href="https://github.com/settings/personal-access-tokens/new">https://github.com/settings/personal-access-tokens/new</a>, puis stockez-le dans une variable d'environnement nommée <code>GITHUB_PAT_TOKEN</code>.</li>
+              <li>Si vous utilisez un fichier <code>.env</code> local, ajoutez-le à <code>.gitignore</code> pour éviter toute fuite.</li>
+              <li>Dans l'IDE, ouvrez les réglages Codex puis le fichier <code>config.toml</code> (commun CLI + IDE).</li>
+              <li>Ajoutez la section <code>[mcp_servers.github]</code> avec l'URL du serveur distant.</li>
+              <li>Enregistrez, relancez Codex si besoin, puis utilisez <code>/mcp</code> ou le panneau MCP pour vérifier que <code>github</code> apparaît.</li>
+            </ol>
+            <pre>[mcp_servers.github]
+url = "https://api.githubcopilot.com/mcp/"
+bearer_token_env_var = "GITHUB_PAT_TOKEN"</pre>
+            <p class="lead">Exemple de stockage local (évitez de committer ce fichier) :</p>
+            <pre>GITHUB_PAT_TOKEN=ghp_votre_token_ici</pre>
+            <p class="lead">Test rapide :</p>
+            <pre>Liste mes dépôts GitHub</pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-12" class="slide" data-title="Analyser la branche dev pour comportements malveillants" data-type="task" data-task="12">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 12</p>
+            <h2>Analyser la branche dev du repo louisfrm/agents.md</h2>
+            <p class="lead">Utilisez Codex pour auditer la branche <code>dev</code> à la recherche de comportements malveillants, puis ouvrez une issue.</p>
+            <ol class="steps">
+              <li>
+                Démarrez un nouveau chat Codex et demandez l'analyse de la branche <code>dev</code> du repo <code>louisfrm/agents.md</code> pour détecter des comportements malveillants.
+                <pre>Analyse la branche dev du repo louisfrm/agents.md pour détecter des comportements malveillants. Résume les risques, s'il y en a.</pre>
+              </li>
+              <li>
+                Demandez ensuite à Codex d'ouvrir une issue sur ce repo avec les constats.
+                <pre>Ouvre une issue sur le repo louisfrm/agents.md avec le résumé de l'analyse.</pre>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-13" class="slide" data-title="Activer la recherche web" data-type="task" data-task="13">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 13</p>
+            <h2>Activer la recherche web</h2>
+            <p class="lead">Ajoutez l'option de recherche web dans le fichier <code>config.toml</code>, puis lancez une nouvelle conversation pour vérifier.</p>
+            <ol class="steps">
+              <li>Dans l'IDE, ouvrez les réglages Codex puis affichez le fichier <code>config.toml</code>.</li>
+              <li>Ajoutez la ligne <code>web_search = "live"</code> en top-level pour activer la recherche web.</li>
+              <li>Enregistrez le fichier, puis démarrez une nouvelle conversation Codex.</li>
+            </ol>
+            <pre>web_search = "live"</pre>
+            <p class="lead">Exemple :</p>
+            <pre>Quelle est la météo de cet après-midi à Massy ?</pre>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="task-14" class="slide" data-title="Partager des fichiers et des sélections" data-type="task" data-task="14">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 14</p>
+            <h2>Partager des fichiers et des sélections</h2>
+            <p class="lead">Entraînez-vous à ajouter du contexte local aux chats Codex.</p>
+            <ol class="steps">
+              <li>Cliquez droit sur une sélection et choisissez <strong>Add to Codex Chat</strong> pour ne partager que l'extrait pertinent.</li>
+              <li>Vous pouvez aussi joindre des fichiers entiers depuis le sélecteur de fichiers de l'IDE si besoin.</li>
+            </ol>
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <img class="media-image" src="https://codex-102.vercel.app/file-selection-extension.png" alt="Capture : menu de sélection de fichiers dans l'IDE" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-15" class="slide" data-title="Utiliser /review pour détecter un bug manuel" data-type="task" data-task="15">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 15</p>
+            <h2>Utiliser /review pour détecter un bug manuel</h2>
+            <p class="lead">Inspectez une petite régression introduite volontairement.</p>
+            <ol class="steps">
+              <li>Dans votre repo, ouvrez <code>pages/index.tsx</code> et trouvez la boucle <code>getStaticProps</code> qui construit <code>contributorsByRepo</code>.</li>
+              <li>Juste avant l'assignation <code>contributorsByRepo[fullName] = { avatars, total }</code>, ajoutez une ligne :</li>
+            </ol>
+            <pre>total++;</pre>
+            <p class="kicker">Laissez tout le reste tel quel pour que le compteur grimpe discrètement d'une unité.</p>
+            <ol class="steps" start="3">
+              <li>Démarrez une nouvelle conversation Codex dans le repo et lancez :</li>
+            </ol>
+            <pre>/review</pre>
+            <ol class="steps" start="4">
+              <li>Choisissez Review sur une branche de base et sélectionnez <code>main</code>.</li>
+              <li>Laissez Codex exécuter la revue et lisez les constats qui signalent le total gonflé.</li>
+            </ol>
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <img class="media-image" src="https://codex-102.vercel.app/code-review-ide.png" alt="Capture : revue dans l'IDE" />
+              <img class="media-image" src="https://codex-102.vercel.app/fix-code-review-ide.png" alt="Capture : correction suite à la revue" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <script src="assets/nodes.js"></script>
+    <script>
+      const deck = document.querySelector("#deck");
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const taskSlides = slides.filter((slide) => slide.dataset.type === "task");
+      const summarySlides = slides.filter((slide) =>
+        ["task", "concept"].includes(slide.dataset.type)
+      );
+      const progressBar = document.querySelector("#progress span");
+      const statusText = document.querySelector("#status");
+      const agendaProgress = document.querySelector("#agenda-progress");
+      const rail = document.querySelector("#rail");
+      const taskGrid = document.querySelector("#task-grid");
+      function updateProgress(activeSlide) {
+        const total = taskSlides.length;
+        const activeIndex = slides.indexOf(activeSlide);
+        let current = 0;
+        taskSlides.forEach((taskSlide, index) => {
+          if (slides.indexOf(taskSlide) <= activeIndex) {
+            current = index + 1;
+          }
+        });
+        const percent = total > 0 ? (current / total) * 100 : 0;
+
+        progressBar.style.width = `${percent}%`;
+        statusText.textContent = `${current}/${total}`;
+        if (agendaProgress) {
+          agendaProgress.textContent = `${current}/${total}`;
+        }
+
+        slides.forEach((slide) => slide.classList.toggle("active", slide === activeSlide));
+        document.querySelectorAll("#rail button").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.target === activeSlide.id);
+        });
+        document.body.classList.toggle("on-cover", activeSlide.id === "cover");
+
+        if (activeSlide.dataset.type === "task") {
+          activeSlide.dataset.progress = `${current}/${total}`;
+        }
+      }
+
+      function buildRail() {
+        rail.innerHTML = "";
+        slides.forEach((slide) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.dataset.target = slide.id;
+          btn.dataset.title = slide.dataset.title || slide.id;
+          btn.addEventListener("click", () => {
+            slide.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+          rail.appendChild(btn);
+        });
+      }
+
+      function buildTaskGrid() {
+        taskGrid.innerHTML = "";
+        summarySlides.forEach((slide) => {
+          const isTask = slide.dataset.type === "task";
+          const taskNumber =
+            slide.dataset.task || String(taskSlides.indexOf(slide) + 1).padStart(2, "0");
+          const eyebrow = slide.querySelector(".eyebrow");
+          const label = isTask
+            ? `Tâche ${taskNumber || ""}`.trim()
+            : eyebrow
+              ? eyebrow.textContent.trim()
+              : "Repère";
+          const card = document.createElement("a");
+          card.href = `#${slide.id}`;
+          card.className = "task-card";
+          card.innerHTML = `<span>${label}</span><strong>${slide.dataset.title}</strong>`;
+          card.addEventListener("click", (event) => {
+            event.preventDefault();
+            slide.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+          taskGrid.appendChild(card);
+        });
+      }
+
+      function bindJumpButtons() {
+        document.querySelectorAll("[data-jump]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const target = document.getElementById(btn.dataset.jump);
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          });
+        });
+      }
+
+      function observeSlides() {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                updateProgress(entry.target);
+              }
+            });
+          },
+          { root: deck, threshold: 0.6 }
+        );
+        slides.forEach((slide) => observer.observe(slide));
+      }
+
+      function bindKeys() {
+        document.addEventListener("keydown", (event) => {
+          const keysNext = ["ArrowDown", "PageDown", " "];
+          const keysPrev = ["ArrowUp", "PageUp"];
+          if ([...keysNext, ...keysPrev, "Home", "End"].includes(event.key)) {
+            event.preventDefault();
+          }
+          const activeIndex = slides.findIndex((slide) => slide.classList.contains("active"));
+          if (keysNext.includes(event.key)) {
+            const next = slides[Math.min(activeIndex + 1, slides.length - 1)];
+            next.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+          if (keysPrev.includes(event.key)) {
+            const prev = slides[Math.max(activeIndex - 1, 0)];
+            prev.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+          if (event.key === "Home") {
+            slides[0].scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+          if (event.key === "End") {
+            slides[slides.length - 1].scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      }
+
+      buildRail();
+      buildTaskGrid();
+      bindJumpButtons();
+      observeSlides();
+      bindKeys();
+      updateProgress(slides[0]);
+
+      const nodes = new NodesJs({
+        id: "nodes",
+        width: window.innerWidth,
+        height: window.innerHeight,
+        particleSize: 2.6,
+        lineSize: 2,
+        particleColor: [31, 123, 255, 0.35],
+        lineColor: "31,123,255",
+        backgroundFrom: [10, 20, 45],
+        backgroundTo: [10, 20, 45],
+        backgroundDuration: 4000,
+        nobg: true,
+        number: window.innerWidth < 768 ? 30 : 80,
+        speed: 14,
+        pointerCircleRadius: 120
+      });
+
+      window.addEventListener("resize", () => {
+        nodes.setWidth(window.innerWidth);
+        nodes.setHeight(window.innerHeight);
+        nodes.placeNodes(nodes.number);
+      });
+    </script>
+  </body>
+</html>
