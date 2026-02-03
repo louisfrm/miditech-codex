@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Miditech - Hub de formation Codex</title>
+    <title>Miditech - Codex</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -508,7 +508,7 @@
       <div class="brand"><span class="dot"></span> Miditech Codex</div>
       <div id="progress-wrap">
         <div id="progress"><span></span></div>
-        <div id="status">0/13</div>
+        <div id="status">0/16</div>
       </div>
       <div aria-hidden="true"></div>
     </header>
@@ -539,15 +539,32 @@
         </div>
       </section>
 
-      <section id="task-01" class="slide" data-title="Récupérer le dépôt de référence" data-type="task" data-task="01">
+      <section id="task-01" class="slide" data-title="Cloner le dépôt Miditech Codex" data-type="task" data-task="01">
         <div class="slide-inner">
           <div>
             <p class="eyebrow">Tâche 01</p>
+            <h2>Cloner le dépôt Miditech Codex</h2>
+            <p class="lead">Récupérez le dépôt de l'atelier pour suivre les exercices.</p>
+            <ol class="steps">
+              <li>Dans un terminal, clonez le dépôt :</li>
+            </ol>
+            <pre>git clone https://github.com/louisfrm/miditech-codex</pre>
+            <ol class="steps" start="2">
+              <li>Ouvrez <code>miditech.html</code>.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-02" class="slide" data-title="Récupérer le dépôt de référence" data-type="task" data-task="02">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 02</p>
             <h2>Récupérer le dépôt de référence</h2>
             <p class="lead">Récupérez le dépôt exemple que vous utiliserez pendant les exercices.</p>
             <ol class="steps">
               <li>
-                Clonez avec <code>git clone https://github.com/openai/agents.md.git agents-md-repository</code>
+                Clonez avec <code>git clone https://github.com/louisfrm/agents.md agents-md-repository</code>
                 (ou téléchargez le ZIP et renommez le dossier en <code>agents-md-repository</code>).
               </li>
               <li>
@@ -568,13 +585,17 @@
         </div>
       </section>
 
-      <section id="task-02" class="slide" data-title="Modifier l'effort de raisonnement du modèle" data-type="task" data-task="02">
+      <section id="task-03" class="slide" data-title="Modifier l'effort de raisonnement du modèle" data-type="task" data-task="03">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 02</p>
+            <p class="eyebrow">Tâche 03</p>
             <h2>Modifier l'effort de raisonnement du modèle</h2>
             <p class="lead">Réglez Codex sur un raisonnement Low avant de lancer les prompts. Quand vous avez fini, repassez en Medium.</p>
-            Lancez <code>codex</code>, tapez <code>/model</code>, surlignez <code>gpt-5.2-codex</code>, appuyez sur Entrée, puis choisissez le raisonnement Low.</li>
+            <ol class="steps">
+              <li>Dans l'IDE, ouvrez le sélecteur de modèle sous la zone de chat.</li>
+              <li>Choisissez <code>gpt-5.2-codex</code>.</li>
+              <li>Réglez l'effort de raisonnement sur <code>Low</code>.</li>
+            </ol>
 
           </div>
           <div class="media-card">
@@ -585,10 +606,10 @@
         </div>
       </section>
 
-      <section id="task-03" class="slide" data-title="Envoyer un prompt en lecture seule" data-type="task" data-task="03">
+      <section id="task-04" class="slide" data-title="Envoyer un prompt en lecture seule" data-type="task" data-task="04">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 03</p>
+            <p class="eyebrow">Tâche 04</p>
             <h2>Envoyer un prompt en lecture seule</h2>
             <p class="lead">Entraînez-vous à demander une analyse sans modifier de fichiers.</p>
               Avec le raisonnement Low actif, demandez : <code>Explique en bref ce que fait ce dépôt</code>
@@ -601,10 +622,10 @@
         </div>
       </section>
 
-      <section id="task-04" class="slide" data-title="Revenir à GPT-5.2-Codex (Medium)" data-type="task" data-task="04">
+      <section id="task-05" class="slide" data-title="Revenir à GPT-5.2-Codex (Medium)" data-type="task" data-task="05">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 04</p>
+            <p class="eyebrow">Tâche 05</p>
             <h2>Revenir à GPT-5.2-Codex (Medium)</h2>
             <p class="lead">Revenez au modèle par défaut recommandé avant de continuer.</p>
             <ol class="steps">
@@ -615,10 +636,10 @@
         </div>
       </section>
 
-      <section id="task-05" class="slide" data-title="Créer de nouveaux fichiers (ex : documentation) sans forcément modifier l'app" data-type="task" data-task="05">
+      <section id="task-06" class="slide" data-title="Créer de nouveaux fichiers (ex : documentation) sans forcément modifier l'app" data-type="task" data-task="06">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 05</p>
+            <p class="eyebrow">Tâche 06</p>
             <h2>Créer de nouveaux fichiers (ex : documentation) sans forcément modifier l'app</h2>
             <p class="lead">Lancez le prompt suivant pour générer un asset de visualisation du dépôt.</p>
             <ol class="steps">
@@ -636,10 +657,10 @@
         </div>
       </section>
 
-      <section id="task-06" class="slide" data-title="Modifier du code via un prompt" data-type="task" data-task="06">
+      <section id="task-07" class="slide" data-title="Modifier du code via un prompt" data-type="task" data-task="07">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 06</p>
+            <p class="eyebrow">Tâche 07</p>
             <h2>Modifier du code via un prompt</h2>
             <p class="lead">Demandez à Codex de modifier le projet en appliquant un patch.</p>
             Démarrez une nouvelle tâche et envoyez :
@@ -654,10 +675,10 @@
         </div>
       </section>
 
-      <section id="task-07" class="slide" data-title="Créer une branche à votre nom et committer" data-type="task" data-task="07">
+      <section id="task-08" class="slide" data-title="Créer une branche à votre nom et committer" data-type="task" data-task="08">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 07</p>
+            <p class="eyebrow">Tâche 08</p>
             <h2>Créer une branche à votre nom et committer</h2>
             <p class="lead">Demandez à Codex de créer une branche Git à votre nom, puis de committer votre travail dans un second temps.</p>
             <ol class="steps">
@@ -675,7 +696,7 @@
       <section id="security" class="slide" data-title="Sécurité Codex" data-type="concept">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Après la tâche 07</p>
+            <p class="eyebrow">Après la tâche 08</p>
             <h2>Sécurité</h2>
             <p class="lead">Comprenez ce que Codex peut faire par défaut et quand il doit vous demander une approbation.</p>
             <ol class="steps">
@@ -713,10 +734,10 @@ web_search = "cached" # default
         </div>
       </section>
 
-      <section id="task-08" class="slide" data-title="Envoyer une image avec des instructions" data-type="task" data-task="08">
+      <section id="task-09" class="slide" data-title="Envoyer une image avec des instructions" data-type="task" data-task="09">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 08</p>
+            <p class="eyebrow">Tâche 09</p>
             <h2>Envoyer une image avec des instructions</h2>
             <p class="lead">Entraînez-vous à joindre des visuels et à demander des ajustements de style.</p>
             <ol class="steps">
@@ -737,7 +758,7 @@ web_search = "cached" # default
       <section id="mcp-intro" class="slide" data-title="Comprendre MCP" data-type="concept">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Avant la tâche 09</p>
+            <p class="eyebrow">Avant la tâche 10</p>
             <h2>Qu'est-ce que le MCP ?</h2>
             <p class="lead">
               Le <strong>Model Context Protocol (MCP)</strong> est un standard open-source
@@ -769,10 +790,10 @@ web_search = "cached" # default
         </div>
       </section>
 
-      <section id="task-09" class="slide" data-title="Connecter le serveur MCP des docs OpenAI" data-type="task" data-task="09">
+      <section id="task-10" class="slide" data-title="Connecter le serveur MCP des docs OpenAI" data-type="task" data-task="10">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 09</p>
+            <p class="eyebrow">Tâche 10</p>
             <h2>Connecter le serveur MCP des docs OpenAI</h2>
             <p class="lead">Ajoutez le serveur MCP de la documentation OpenAI pour que Codex récupère des détails API et SDK à jour pendant le travail.</p>
             <ol class="steps">
@@ -783,14 +804,20 @@ web_search = "cached" # default
             </ol>
             <pre>Quand les questions portent sur les API OpenAI, les SDK, Codex ou d'autres produits OpenAI, utilise le serveur MCP de la documentation OpenAI comme source de vérité et évite la recherche web sauf si le serveur MCP ne peut pas répondre.</pre>
           </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <pre>[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"</pre>
+            </div>
+          </div>
         </div>
       </section>
 
 
-      <section id="task-10" class="slide" data-title="Utiliser MCP Docs OpenAI pour l'API Voice" data-type="task" data-task="10">
+      <section id="task-11" class="slide" data-title="Utiliser MCP Docs OpenAI pour l'API Voice" data-type="task" data-task="11">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 10</p>
+            <p class="eyebrow">Tâche 11</p>
             <h2>Utiliser MCP Docs OpenAI pour l'API Voice</h2>
             <p class="lead">Entraînez-vous à utiliser MCP Docs OpenAI pour répondre à une question sur l'API Voice.</p>
             Démarrez un nouveau chat et envoyez :
@@ -799,10 +826,10 @@ web_search = "cached" # default
         </div>
       </section>
 
-      <section id="task-11" class="slide" data-title="Configurer le serveur MCP GitHub" data-type="task" data-task="11">
+      <section id="task-12" class="slide" data-title="Configurer le serveur MCP GitHub" data-type="task" data-task="12">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 11</p>
+            <p class="eyebrow">Tâche 12</p>
             <h2>Configurer le serveur MCP GitHub</h2>
             <p class="lead">Ajoutez le serveur MCP GitHub (hébergé par GitHub) afin que Codex puisse interagir avec vos repos.</p>
             <ol class="steps">
@@ -823,10 +850,10 @@ bearer_token_env_var = "GITHUB_PAT_TOKEN"</pre>
         </div>
       </section>
 
-      <section id="task-12" class="slide" data-title="Analyser la branche dev pour comportements malveillants" data-type="task" data-task="12">
+      <section id="task-13" class="slide" data-title="Analyser la branche dev pour comportements malveillants" data-type="task" data-task="13">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 12</p>
+            <p class="eyebrow">Tâche 13</p>
             <h2>Analyser la branche dev du repo louisfrm/agents.md</h2>
             <p class="lead">Utilisez Codex pour auditer la branche <code>dev</code> à la recherche de comportements malveillants, puis ouvrez une issue.</p>
             <ol class="steps">
@@ -843,10 +870,10 @@ bearer_token_env_var = "GITHUB_PAT_TOKEN"</pre>
         </div>
       </section>
 
-      <section id="task-13" class="slide" data-title="Activer la recherche web" data-type="task" data-task="13">
+      <section id="task-14" class="slide" data-title="Activer la recherche web" data-type="task" data-task="14">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 13</p>
+            <p class="eyebrow">Tâche 14</p>
             <h2>Activer la recherche web</h2>
             <p class="lead">Ajoutez l'option de recherche web dans le fichier <code>config.toml</code>, puis lancez une nouvelle conversation pour vérifier.</p>
             <ol class="steps">
@@ -858,14 +885,19 @@ bearer_token_env_var = "GITHUB_PAT_TOKEN"</pre>
             <p class="lead">Exemple :</p>
             <pre>Quelle est la météo de cet après-midi à Massy ?</pre>
           </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <img class="media-image" src="assets/web_search.png" alt="Capture : activation de la recherche web dans l'IDE" />
+            </div>
+          </div>
         </div>
       </section>
 
 
-      <section id="task-14" class="slide" data-title="Partager des fichiers et des sélections" data-type="task" data-task="14">
+      <section id="task-15" class="slide" data-title="Partager des fichiers et des sélections" data-type="task" data-task="15">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 14</p>
+            <p class="eyebrow">Tâche 15</p>
             <h2>Partager des fichiers et des sélections</h2>
             <p class="lead">Entraînez-vous à ajouter du contexte local aux chats Codex.</p>
             <ol class="steps">
@@ -881,10 +913,10 @@ bearer_token_env_var = "GITHUB_PAT_TOKEN"</pre>
         </div>
       </section>
 
-      <section id="task-15" class="slide" data-title="Utiliser /review pour détecter un bug manuel" data-type="task" data-task="15">
+      <section id="task-16" class="slide" data-title="Utiliser /review pour détecter un bug manuel" data-type="task" data-task="16">
         <div class="slide-inner">
           <div>
-            <p class="eyebrow">Tâche 15</p>
+            <p class="eyebrow">Tâche 16</p>
             <h2>Utiliser /review pour détecter un bug manuel</h2>
             <p class="lead">Inspectez une petite régression introduite volontairement.</p>
             <ol class="steps">
@@ -906,6 +938,62 @@ bearer_token_env_var = "GITHUB_PAT_TOKEN"</pre>
             <div class="media-stack">
               <img class="media-image" src="https://codex-102.vercel.app/code-review-ide.png" alt="Capture : revue dans l'IDE" />
               <img class="media-image" src="https://codex-102.vercel.app/fix-code-review-ide.png" alt="Capture : correction suite à la revue" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skill-intro" class="slide" data-title="Comprendre les Skills" data-type="concept">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Avant la tâche 17</p>
+            <h2>Qu'est-ce qu'un Skill ?</h2>
+            <p class="lead">
+              Un <strong>Skill</strong> est un paquet de consignes qui donne à Codex une capacité
+              précise et réutilisable.
+            </p>
+            <ol class="steps">
+              <li><strong>Structure :</strong> un dossier avec un <code>SKILL.md</code> et, si besoin, des scripts, ressources ou assets.</li>
+              <li><strong>Invocation :</strong> explicite via <code>/skills</code> ou <code>$nom-du-skill</code>, ou implicite si la demande correspond.</li>
+              <li><strong>Découverte :</strong> Codex charge le nom + description, puis lit le contenu complet quand le skill est activé.</li>
+            </ol>
+            <p class="kicker">Les skills suivent le standard open-source Agent Skills.</p>
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <pre>my-skill/
+  SKILL.md
+  scripts/
+  references/
+  assets/
+  agents/
+    openai.yaml</pre>
+              <pre>---
+name: "security-best-practices"
+description: "Perform language and framework specific security best-practice reviews and suggest improvements. Trigger only when the user explicitly requests security best practices guidance, a security review/report, or secure-by-default coding help. Trigger only for supported languages (python, javascript/typescript, go). Do not trigger for general code review, debugging, or non-security tasks."
+---</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="task-17" class="slide" data-title="Installer le Skill Security Best Practices" data-type="task" data-task="17">
+        <div class="slide-inner">
+          <div>
+            <p class="eyebrow">Tâche 17</p>
+            <h2>Installer le Skill Security Best Practices</h2>
+            <p class="lead">Découvrez le skill <strong>security-best-practices</strong> et lancez un premier audit guidé.</p>
+            <ol class="steps">
+              <li>Passez d'abord sur la branche <code>dev</code> : <code>git checkout dev</code>.</li>
+              <li>Ouvrez les paramètres du plugin Codex puis l'onglet <strong>Skills</strong>.</li>
+              <li>Recherchez <code>security-best-practices</code> et installez/activez le skill.</li>
+              <li>Observez le contenu installé dans <code>%USERPROFILE%\.codex\skills</code>.</li>
+              <li>Cliquez sur <strong>Try skill</strong>.</li>
+            </ol>
+          </div>
+          <div class="media-card">
+            <div class="media-stack">
+              <img class="media-image" src="assets/skill_security.png" alt="Capture : installation du skill security-best-practices dans Codex" />
             </div>
           </div>
         </div>
